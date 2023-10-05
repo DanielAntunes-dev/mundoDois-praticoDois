@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ordenando</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="ordenando.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="mt-4">
+        <label for="valor">Valor:</label>
+        <input type="number" id="valor" class="form-control" />
+
+        <button onclick="add()" class="btn btn-primary mt-2">Adicionar</button>
+      </div>
+
+      <div class="mt-4">
+        <label for="algoritmo">Escolha um algoritmo de ordenação:</label>
+        <select id="algoritmo" class="form-control">
+          <option value="bubble" selected>Bubble Sort</option>
+          <option value="selection">Selection Sort</option>
+          <option value="quick">Quick Sort</option>
+        </select>
+
+        <button onclick="ordenar()" class="btn btn-success mt-2">
+          Ordenar
+        </button>
+        <button onclick="misturar()" class="btn btn-warning mt-2">
+          Misturar
+        </button>
+      </div>
+
+      <ul id="valores" class="mt-4"></ul>
+    </div>
+
+    <script>
+      function add() {
+        // Capturar o campo de entrada
+        const valorInput = document.getElementById("valor");
+
+        // Capturar a lista de valores
+        const valoresLista = document.getElementById("valores");
+
+        // Criar um elemento li
+        const node = document.createElement("li");
+
+        // Definir um nó de texto com o valor do campo de entrada
+        const textNode = document.createTextNode(valorInput.value);
+
+        // Adicionar o nó de texto como filho do elemento li
+        node.appendChild(textNode);
+
+        // Adicionar o elemento li à lista de valores
+        valoresLista.appendChild(node);
+
+        // Limpar o campo de entrada
+        valorInput.value = "";
+      }
+
+      function ordenar() {
+        const valoresLista = document.getElementById("valores");
+        const algoritmoSelecionado = document.getElementById("algoritmo").value;
+
+        // Obter os nós da lista de valores e converter para um vetor de números
+        const valores = Array.from(valoresLista.children).map((item) =>
+          parseInt(item.innerHTML)
+        );
+
+        // Escolher o algoritmo de ordenação com base na seleção
+        if (algoritmoSelecionado === "bubble") {
+          bubble_sort(valores);
+        } else if (algoritmoSelecionado === "selection") {
+          selection_sort(valores);
+        } else if (algoritmoSelecionado === "quick") {
+          quick_sort(valores, 0, valores.length - 1);
+        }
+
+        // Atualizar a lista de valores com os valores ordenados
+        valoresLista.innerHTML = valores
+          .map((val) => `<li>${val}</li>`)
+          .join("");
+      }
+
+      function misturar() {
+        // Capturar a lista de valores
+        const valoresLista = document.getElementById("valores");
+
+        // Obter os nós da lista de valores e converter para um vetor de números
+        const valores = Array.from(valoresLista.children).map((item) =>
+          parseInt(item.innerHTML)
+        );
+
+        // Aplicar a função shuffle ao vetor
+        shuffle(valores,10); // Neste exemplo, estamos fazendo 10 trocas
+
+        // Atualizar a lista de valores com os valores misturados
+        valoresLista.innerHTML = valores
+          .map((val) => `<li>${val}</li>`)
+          .join("");
+      }
+    </script>
+  </body>
+</html>
